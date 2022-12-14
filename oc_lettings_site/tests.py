@@ -1,6 +1,8 @@
 from django.test import Client, TestCase
 from django.urls import reverse
 
+from pytest_django.asserts import assertTemplateUsed
+
 
 class TestHomeIndex(TestCase):
 
@@ -15,6 +17,7 @@ class TestHomeIndex(TestCase):
         response = self.client.get(self.path)
 
         assert response.status_code == 200
+        assertTemplateUsed(response, "index.html")
 
         assert b"<title>Holiday Homes</title>"
         assert b"<h1>Welcome to Holiday Homes</h1>"
