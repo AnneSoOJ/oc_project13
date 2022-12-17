@@ -41,7 +41,7 @@ class TestProfilesDetail(TestCase):
 
     def test_when_profile_detail_is_ok_then_return_http200_and_profile_detail_page(self):
         """
-        Test to assert if one profile detail page is well displayed and returning the right content.
+        Test to assert if profile detail page is well displayed and returning the right content.
         """
         user_test = User.objects.first()
         self.path = reverse("profiles:profile", args=[user_test.username])

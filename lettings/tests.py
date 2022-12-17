@@ -42,7 +42,7 @@ class TestLettingsDetail(TestCase):
 
     def test_when_letting_detail_is_ok_then_return_http200_and_letting_detail_page(self):
         """
-        Test to assert if one letting detail page is well displayed and returning the right content.
+        Test to assert if letting detail page is well displayed and returning the right content.
         """
         letting_test = Letting.objects.first()
         self.path = reverse("lettings:letting", args=[letting_test.id])
