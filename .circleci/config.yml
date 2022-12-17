@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   python: circleci/python@1.2
-  #docker: circleci/docker@1.7.0
+  docker: circleci/docker@1.7.0
   #heroku: circleci/heroku@1.2.6
   
 jobs:
@@ -20,22 +20,22 @@ jobs:
           name: Linting flake8
           command: flake8
 
-  #docker-build-and-push:
-  #  machine: true
-  #  steps:
-  #   - checkout
-  #   - run:
-  #        name: Authenticate to registry
-  #        command: echo "$DOCKERHUB_PASS" | docker login --username $DOCKERHUB_USERNAME --password-stdin
-  #        when: always
-  #   - run:
-  #        name: Build image
-  #        command: docker build --tag ${DOCKERHUB_USERNAME}/${IMAGE_NAME} .
-  #        when: always
-  #   - run:
-  #        name: Push image
-  #        command: docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}
-  #        when: always
+  docker-build-and-push:
+    machine: true
+    steps:
+     - checkout
+     - run:
+          name: Authenticate to registry
+          command: echo "$DOCKERHUB_PASS" | docker login --username $DOCKERHUB_USERNAME --password-stdin
+          when: always
+     - run:
+          name: Build image
+          command: docker build --tag ${DOCKERHUB_USERNAME}/${IMAGE_NAME} .
+          when: always
+     - run:
+          name: Push image
+          command: docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}
+          when: always
   
   #deploy_heroku:
   #  machine: true
@@ -52,13 +52,13 @@ workflows:
   build-test-deploy:
     jobs:
       - build-and-test
-      #- docker-build-and-push:
-      #    requires:
-      #      - build-and-test
-      #    filters:
-      #      branches:
-      #        only:
-      #          - main
+      - docker-build-and-push:
+          requires:
+            - build-and-test
+          filters:
+            branches:
+              only:
+                - main
       #- deploy_heroku:
       #    requires:
       #      - docker-build-and-push
