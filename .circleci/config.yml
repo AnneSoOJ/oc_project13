@@ -1,0 +1,68 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@1.2
+  docker: circleci/docker@1.7.0
+  heroku: circleci/heroku@1.2.6
+  
+jobs:
+  build-and-test: 
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - run:
+          name: Run tests
+          command: pytest
+      - run:
+          name: Linting flake8
+          command: flake8
+
+  #docker-build-and-push:
+  #  machine: true
+  #  steps:
+  #   - checkout
+  #   - run:
+  #        name: Authenticate to registry
+  #        command: echo "$DOCKERHUB_PASS" | docker login --username $DOCKERHUB_USERNAME --password-stdin
+  #        when: always
+  #   - run:
+  #        name: Build image
+  #        command: docker build --tag ${DOCKERHUB_USERNAME}/${IMAGE_NAME} .
+  #        when: always
+  #   - run:
+  #        name: Push image
+  #        command: docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}
+  #        when: always
+  
+  #deploy_heroku:
+  #  machine: true
+  #  steps:
+  #    - checkout
+  #    - run:
+  #        name: Build and push Docker image to Heroku
+  #        command: |
+  #          sudo curl https://cli-assets.heroku.com/install.sh | sh
+  #          HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
+  #          HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a ${APP_NAME} web
+  #          HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a ${APP_NAME} web
+workflows:
+  build-test-deploy:
+    jobs:
+      - build-and-test
+      - docker-build-and-push:
+          requires:
+            - build-and-test
+          filters:
+            branches:
+              only:
+                - main
+      #- deploy_heroku:
+      #    requires:
+      #      - docker-build-and-push
+      #    filters:
+      #      branches:
+      #        only:
+      #          - main
