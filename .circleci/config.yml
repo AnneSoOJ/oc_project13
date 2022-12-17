@@ -2,8 +2,8 @@ version: 2.1
 
 orbs:
   python: circleci/python@1.2
-  docker: circleci/docker@1.7.0
-  heroku: circleci/heroku@1.2.6
+  #docker: circleci/docker@1.7.0
+  #heroku: circleci/heroku@1.2.6
   
 jobs:
   build-and-test: 
@@ -52,13 +52,13 @@ workflows:
   build-test-deploy:
     jobs:
       - build-and-test
-      - docker-build-and-push:
-          requires:
-            - build-and-test
-          filters:
-            branches:
-              only:
-                - main
+      #- docker-build-and-push:
+      #    requires:
+      #      - build-and-test
+      #    filters:
+      #      branches:
+      #        only:
+      #          - main
       #- deploy_heroku:
       #    requires:
       #      - docker-build-and-push
