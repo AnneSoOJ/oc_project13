@@ -11,10 +11,9 @@ jobs:
       - image: cimg/python:3.8
     steps:
       - checkout
-      - python/install-packages:
-          pkg-manager: pip
-      - run:
-          command: export DJANGO_SETTINGS_MODULE=oc_lettings_site.settings
+      #- python/install-packages:
+      #    pkg-manager: pip
+      - run: pip install -r requirements.txt
       - run:
           name: Run tests
           command: pytest
