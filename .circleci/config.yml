@@ -3,7 +3,7 @@ version: 2.1
 orbs:
   python: circleci/python@1.2
   docker: circleci/docker@1.7.0
-  #heroku: circleci/heroku@1.2.6
+  heroku: circleci/heroku@1.2.6
   
 jobs:
   build-and-test: 
@@ -37,17 +37,17 @@ jobs:
           command: docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}
           when: always
   
-  #deploy_heroku:
-  #  machine: true
-  #  steps:
-  #    - checkout
-  #    - run:
-  #        name: Build and push Docker image to Heroku
-  #        command: |
-  #          sudo curl https://cli-assets.heroku.com/install.sh | sh
-  #          HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
-  #          HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a ${APP_NAME} web
-  #          HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a ${APP_NAME} web
+  deploy_heroku:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Build and push Docker image to Heroku
+          command: |
+            sudo curl https://cli-assets.heroku.com/install.sh | sh
+            HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
+            HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a ${APP_NAME} web
+            HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a ${APP_NAME} web
 workflows:
   build-test-deploy:
     jobs:
@@ -59,10 +59,10 @@ workflows:
             branches:
               only:
                 - main
-      #- deploy_heroku:
-      #    requires:
-      #      - docker-build-and-push
-      #    filters:
-      #      branches:
-      #        only:
-      #          - main
+      - deploy_heroku:
+          requires:
+            - docker-build-and-push
+          filters:
+            branches:
+              only:
+                - main
