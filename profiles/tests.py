@@ -1,4 +1,4 @@
-from django.test import Client
+from django.test import Client, TestCase
 from django.urls import reverse
 
 from django.contrib.auth.models import User
@@ -7,7 +7,7 @@ from .models import Profile
 from pytest_django.asserts import assertTemplateUsed
 
 
-class TestProfilesindex():
+class TestProfilesindex(TestCase):
 
     def setUp(self):
         self.client = Client()
@@ -27,7 +27,7 @@ class TestProfilesindex():
         assert "<h1>Profiles</h1>" in content
 
 
-class TestProfilesDetail():
+class TestProfilesDetail(TestCase):
 
     def setUp(self):
         User.objects.create(

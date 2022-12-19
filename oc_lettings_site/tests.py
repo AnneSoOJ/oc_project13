@@ -1,10 +1,10 @@
-from django.test import Client
+from django.test import Client, TestCase
 from django.urls import reverse
 
 from pytest_django.asserts import assertTemplateUsed
 
 
-class TestHomeIndex():
+class TestHomeIndex(TestCase):
 
     def setUp(self):
         self.client = Client()
