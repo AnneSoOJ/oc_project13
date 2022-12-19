@@ -1,4 +1,4 @@
-from django.test import Client, TestCase
+from django.test import Client
 from django.urls import reverse
 
 from .models import Address, Letting
@@ -6,7 +6,7 @@ from .models import Address, Letting
 from pytest_django.asserts import assertTemplateUsed
 
 
-class TestLettingsIndex(TestCase):
+class TestLettingsIndex():
 
     def setUp(self):
         self.client = Client()
@@ -26,7 +26,7 @@ class TestLettingsIndex(TestCase):
         assert "<h1>Lettings</h1>" in content
 
 
-class TestLettingsDetail(TestCase):
+class TestLettingsDetail():
 
     def setUp(self):
         Address.objects.create(
