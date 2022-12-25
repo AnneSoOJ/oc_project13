@@ -92,12 +92,6 @@ Compte utilisateur à créer pour chaque outil suivant :
 
 - `https://docs.docker.com/engine/install`
 
-### Docker
-
-Création du dépôt dans Docker
-
-- ...
-
 ### Heroku
 
 Création de l'application depuis le site
