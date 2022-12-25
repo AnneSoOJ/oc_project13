@@ -138,5 +138,5 @@ Retourner sur son compte CircleCI pour voir les "jobs" du pipeline s'activer :
 ### Récupération du projet en local
 
 - Ouvrir Docker Desktop
-- Commande pour simultanément récupérer l'image en localement, lancer le conteneur Docker avec le fichier des variables d'environnement locales et enfin nettoyer/supprimer le conteneur : `docker run -it -d -p 8000:8000 --rm annesooj/asooj-oc-lettings:latest`
+- Commande pour simultanément récupérer l'image en localement, lancer le conteneur Docker avec le fichier des variables d'environnement locales et enfin nettoyer/supprimer le conteneur : `docker run -it -p 8000:8000 --rm <docker_username>/oc-lettings-456:latest`
 - Testez le site dans votre navigateur : `http://127.0.0.1:8000/`
